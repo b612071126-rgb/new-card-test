@@ -1,0 +1,231 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    background:
+        radial-gradient(circle at 20% 0%, rgba(180, 240, 220, .35), transparent 35%),
+        radial-gradient(circle at 90% 20%, rgba(220, 235, 255, .25), transparent 30%),
+        linear-gradient(180deg, #f8fffc, #ffffff);
+    color: #222;
+}
+
+.page {
+    max-width: 430px;
+    margin: auto;
+    padding: 35px 22px;
+}
+
+header {
+    text-align: center;
+}
+
+.logo {
+    font-size: 42px;
+    margin-bottom: 8px;
+}
+
+h1 {
+    font-size: 30px;
+    font-weight: 700;
+    margin: 8px 0;
+}
+
+header p {
+    font-size: 14px;
+    color: #888;
+    margin-top: 10px;
+}
+
+/* 分类区域 */
+.grid {
+    margin-top: 55px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+}
+
+/* 方向方块 */
+.category {
+    aspect-ratio: 1;
+    background: linear-gradient(145deg, rgba(255, 255, 255, .95), rgba(247, 252, 249, .9));
+    border-radius: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 12px 35px rgba(40, 80, 60, .07);
+    transition: .3s;
+    cursor: pointer;
+}
+
+.category:active {
+    transform: scale(.94);
+}
+
+.icon {
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+.title {
+    font-size: 19px;
+    font-weight: 600;
+}
+
+.category::before {
+    content: "";
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    top: -45px;
+    right: -45px;
+    background: radial-gradient(circle, rgba(160, 230, 200, .35), transparent 70%);
+    border-radius: 50%;
+}
+
+/* 黄色局部光晕 */
+.category::after {
+    content: "";
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255, 220, 120, .28), transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* 四个卡片不同位置 */
+.card0::after {
+    top: 20px;
+    left: 15px;
+}
+
+.card1::after {
+    right: 15px;
+    bottom: 20px;
+}
+
+.card2::after {
+    top: 45px;
+    right: 5px;
+}
+
+.card3::after {
+    bottom: 15px;
+    left: 25px;
+}
+
+/* ========== 卡片列表样式 ========== */
+.card-item {
+    perspective: 1000px;
+    margin-bottom: 22px;
+    height: 280px;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+}
+
+.card-item.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 22px;
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.card-front {
+    background: linear-gradient(145deg, #ffffff, #f5faf7);
+    box-shadow: 0 10px 30px rgba(40, 80, 60, 0.08);
+}
+
+.card-back {
+    background: linear-gradient(145deg, #f0faf5, #e8f5ed);
+    transform: rotateY(180deg);
+    align-items: flex-start;
+    text-align: left;
+    box-shadow: 0 10px 30px rgba(40, 80, 60, 0.08);
+}
+
+.card-icon {
+    font-size: 38px;
+    margin-bottom: 10px;
+}
+
+.card-title-small {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.card-question {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+.tap-hint {
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 10px;
+}
+
+.card-back ol {
+    padding-left: 20px;
+    margin: 10px 0 16px;
+}
+
+.card-back li {
+    margin-bottom: 8px;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.done-btn {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 28px;
+    border-radius: 20px;
+    font-size: 15px;
+    cursor: pointer;
+    align-self: center;
+    margin-top: auto;
+}
+
+/* 已完成状态 */
+.card-item.done {
+    opacity: 0.55;
+    filter: grayscale(30%);
+}
+
+.card-item.done .done-btn {
+    background: #999;
+}
+
+/* 返回按钮额外留白 */
+button {
+    font-family: inherit;
+}
