@@ -15,25 +15,25 @@ categories.forEach((item, index) => {
         <div class="icon">${item.icon}</div>
         <div class="title">${item.title}</div>
     `;
-    
-    // 点击分类跳转到卡片列表
     div.addEventListener("click", () => {
         showCards(item.title);
     });
-    
     box.appendChild(div);
 });
 
 // 2. 展示某分类下的卡片
 function showCards(categoryName) {
     const filtered = cards.filter(c => c.category === categoryName);
-    
+
     if (filtered.length === 0) {
         alert("暂无卡片，敬请期待");
         return;
     }
-    
-    // 构建卡片列表HTML
+
+    // 关键修复：把 grid 容器改成普通块级布局，防止卡片被网格挤压
+    box.classList.remove("grid");
+    box.style.display = "block";
+
     let html = `
         <div style="padding: 10px 0 20px;">
             <button onclick="goBack()" style="
@@ -41,8 +41,9 @@ function showCards(categoryName) {
                 cursor: pointer; padding: 8px 0; color: #4CAF50;
             ">← 返回分类</button>
         </div>
+        <div class="card-list-container">
     `;
-    
+
     filtered.forEach(card => {
         html += `
             <div class="card-item" id="card-${card.id}">
@@ -66,9 +67,10 @@ function showCards(categoryName) {
             </div>
         `;
     });
-    
+
+    html += `</div>`;
     box.innerHTML = html;
-    
+
     // 恢复已完成状态
     filtered.forEach(card => {
         if (localStorage.getItem("card_done_" + card.id) === "true") {
@@ -92,109 +94,4 @@ function markDone(cardId) {
     const card = document.getElementById("card-" + cardId);
     card.classList.add("done");
     localStorage.setItem("card_done_" + cardId, "true");
-}
-
-/* ========== 卡片列表样式 ========== */
-
-.card-item {
-    perspective: 1000px;
-    margin-bottom: 22px;
-    height: 280px;
-}
-
-.card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.5s;
-    transform-style: preserve-3d;
-}
-
-.card-item.flipped .card-inner {
-    transform: rotateY(180deg);
-}
-
-.card-front,
-.card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 22px;
-    padding: 24px 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.card-front {
-    background: linear-gradient(145deg, #ffffff, #f5faf7);
-    box-shadow: 0 10px 30px rgba(40, 80, 60, 0.08);
-}
-
-.card-back {
-    background: linear-gradient(145deg, #f0faf5, #e8f5ed);
-    transform: rotateY(180deg);
-    align-items: flex-start;
-    text-align: left;
-    box-shadow: 0 10px 30px rgba(40, 80, 60, 0.08);
-}
-
-.card-icon {
-    font-size: 38px;
-    margin-bottom: 10px;
-}
-
-.card-title-small {
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 8px;
-}
-
-.card-question {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 16px;
-    line-height: 1.5;
-}
-
-.tap-hint {
-    font-size: 12px;
-    color: #aaa;
-    margin-top: 10px;
-}
-
-.card-back ol {
-    padding-left: 20px;
-    margin: 10px 0 16px;
-}
-
-.card-back li {
-    margin-bottom: 8px;
-    font-size: 15px;
-    line-height: 1.5;
-}
-
-.done-btn {
-    background: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 28px;
-    border-radius: 20px;
-    font-size: 15px;
-    cursor: pointer;
-    align-self: center;
-    margin-top: auto;
-}
-
-/* 已完成状态 */
-.card-item.done {
-    opacity: 0.55;
-    filter: grayscale(30%);
-}
-
-.card-item.done .done-btn {
-    background: #999;
 }
