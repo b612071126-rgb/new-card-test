@@ -100,7 +100,6 @@ header p {
     pointer-events: none;
 }
 
-/* 四个卡片不同位置 */
 .card0::after {
     top: 20px;
     left: 15px;
@@ -122,6 +121,10 @@ header p {
 }
 
 /* ========== 卡片列表样式 ========== */
+.card-list-container {
+    display: block;
+}
+
 .card-item {
     perspective: 1000px;
     margin-bottom: 22px;
@@ -215,7 +218,6 @@ header p {
     margin-top: auto;
 }
 
-/* 已完成状态 */
 .card-item.done {
     opacity: 0.55;
     filter: grayscale(30%);
@@ -225,7 +227,6 @@ header p {
     background: #999;
 }
 
-/* 返回按钮额外留白 */
 button {
     font-family: inherit;
 }
