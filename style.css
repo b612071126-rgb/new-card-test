@@ -230,3 +230,58 @@ header p {
 button {
     font-family: inherit;
 }
+
+/* ========== 全屏卡片模式 ========== */
+
+/* 卡片入场动画 */
+.card-item {
+    animation: cardFlyIn 0.5s ease-out both;
+}
+
+@keyframes cardFlyIn {
+    0% {
+        opacity: 0;
+        transform: rotateY(90deg) scale(0.8);
+    }
+    60% {
+        opacity: 1;
+        transform: rotateY(-10deg) scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: rotateY(0deg) scale(1);
+    }
+}
+
+/* 卡片高度适配更多内容 */
+.card-item {
+    perspective: 1000px;
+    margin-bottom: 22px;
+    min-height: 300px;
+}
+
+.card-back ol {
+    padding-left: 20px;
+    margin: 10px 0 16px;
+}
+
+.card-back li {
+    margin-bottom: 10px;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* 已完成状态保持可读 */
+.card-item.done {
+    opacity: 0.6;
+    filter: grayscale(20%);
+}
+
+.card-item.done .done-btn {
+    background: #888;
+}
+
+/* 按钮过渡 */
+.done-btn {
+    transition: all 0.3s;
+}
