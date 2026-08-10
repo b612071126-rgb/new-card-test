@@ -6,6 +6,7 @@ const categories = [
 ];
 
 const box = document.getElementById("categories");
+const header = document.querySelector("header");
 
 // 1. 渲染分类方块
 categories.forEach((item, index) => {
@@ -30,9 +31,13 @@ function showCards(categoryName) {
         return;
     }
 
-    // 关键修复：把 grid 容器改成普通块级布局，防止卡片被网格挤压
+    // 隐藏header，让卡片铺满屏幕
+    header.style.display = "none";
+
+    // 切换布局
     box.classList.remove("grid");
     box.style.display = "block";
+    box.style.marginTop = "0";
 
     let html = `
         <div style="padding: 10px 0 20px;">
@@ -44,9 +49,9 @@ function showCards(categoryName) {
         <div class="card-list-container">
     `;
 
-    filtered.forEach(card => {
+    filtered.forEach((card, index) => {
         html += `
-            <div class="card-item" id="card-${card.id}">
+            <div class="card-item" id="card-${card.id}" style="animation-delay: ${index * 0.1}s;">
                 <div class="card-inner" onclick="flipCard('card-${card.id}')">
                     <div class="card-front">
                         <div class="card-icon">${card.icon}</div>
@@ -59,8 +64,9 @@ function showCards(categoryName) {
                         <ol>
                             ${card.back.map(step => `<li>${step}</li>`).join("")}
                         </ol>
-                        <button class="done-btn" onclick="event.stopPropagation(); markDone(${card.id})">
-                            ✅ 我完成了
+                        <button class="done-btn" id="btn-${card.id}" 
+                            onclick="event.stopPropagation(); toggleDone(${card.id})">
+                            ${getDoneText(card.id)}
                         </button>
                     </div>
                 </div>
@@ -73,9 +79,7 @@ function showCards(categoryName) {
 
     // 恢复已完成状态
     filtered.forEach(card => {
-        if (localStorage.getItem("card_done_" + card.id) === "true") {
-            document.getElementById("card-" + card.id).classList.add("done");
-        }
+        updateDoneState(card.id);
     });
 }
 
@@ -89,9 +93,34 @@ function flipCard(cardId) {
     document.getElementById(cardId).classList.toggle("flipped");
 }
 
-// 5. 标记完成
-function markDone(cardId) {
+// 5. 切换完成状态（可重复）
+function toggleDone(cardId) {
+    const isDone = localStorage.getItem("card_done_" + cardId) === "true";
+    if (isDone) {
+        localStorage.removeItem("card_done_" + cardId);
+    } else {
+        localStorage.setItem("card_done_" + cardId, "true");
+    }
+    updateDoneState(cardId);
+}
+
+// 6. 更新按钮文字和卡片外观
+function updateDoneState(cardId) {
     const card = document.getElementById("card-" + cardId);
-    card.classList.add("done");
-    localStorage.setItem("card_done_" + cardId, "true");
+    const btn = document.getElementById("btn-" + cardId);
+    if (!card || !btn) return;
+
+    const isDone = localStorage.getItem("card_done_" + cardId) === "true";
+    if (isDone) {
+        card.classList.add("done");
+        btn.textContent = "🔄 再来一次";
+    } else {
+        card.classList.remove("done");
+        btn.textContent = "✅ 标记完成";
+    }
+}
+
+// 7. 获取按钮初始文字
+function getDoneText(cardId) {
+    return localStorage.getItem("card_done_" + cardId) === "true" ? "🔄 再来一次" : "✅ 标记完成";
 }
