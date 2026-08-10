@@ -48,7 +48,6 @@ header p {
     gap: 22px;
 }
 
-/* 方向方块 */
 .category {
     aspect-ratio: 1;
     background: linear-gradient(145deg, rgba(255, 255, 255, .95), rgba(247, 252, 249, .9));
@@ -89,7 +88,6 @@ header p {
     border-radius: 50%;
 }
 
-/* 黄色局部光晕 */
 .category::after {
     content: "";
     position: absolute;
@@ -100,188 +98,183 @@ header p {
     pointer-events: none;
 }
 
-.card0::after {
-    top: 20px;
-    left: 15px;
+.card0::after { top: 20px; left: 15px; }
+.card1::after { right: 15px; bottom: 20px; }
+.card2::after { top: 45px; right: 5px; }
+.card3::after { bottom: 15px; left: 25px; }
+
+/* ========== 通用返回栏 ========== */
+.back-bar {
+    display: inline-block;
+    font-size: 15px;
+    color: #4CAF50;
+    cursor: pointer;
+    padding: 8px 0;
+    margin-bottom: 16px;
+    user-select: none;
 }
 
-.card1::after {
-    right: 15px;
-    bottom: 20px;
+/* ========== 卡包列表页 ========== */
+.pack-list-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
 }
 
-.card2::after {
-    top: 45px;
-    right: 5px;
-}
-
-.card3::after {
-    bottom: 15px;
-    left: 25px;
-}
-
-/* ========== 卡片列表样式 ========== */
-.card-list-container {
-    display: block;
-}
-
-.card-item {
-    perspective: 1000px;
-    margin-bottom: 22px;
-    height: 280px;
-}
-
-.card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.5s;
-    transform-style: preserve-3d;
-}
-
-.card-item.flipped .card-inner {
-    transform: rotateY(180deg);
-}
-
-.card-front,
-.card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 22px;
-    padding: 24px 20px;
+.pack-list-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    gap: 14px;
 }
 
-.card-front {
+.pack-item {
     background: linear-gradient(145deg, #ffffff, #f5faf7);
-    box-shadow: 0 10px 30px rgba(40, 80, 60, 0.08);
+    border-radius: 18px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 8px 24px rgba(40, 80, 60, .06);
+    cursor: pointer;
+    animation: fadeUp 0.4s ease-out both;
+    transition: transform 0.2s;
 }
 
-.card-back {
-    background: linear-gradient(145deg, #f0faf5, #e8f5ed);
-    transform: rotateY(180deg);
-    align-items: flex-start;
-    text-align: left;
-    box-shadow: 0 10px 30px rgba(40, 80, 60, 0.08);
+.pack-item:active {
+    transform: scale(0.97);
 }
 
-.card-icon {
-    font-size: 38px;
-    margin-bottom: 10px;
+.pack-icon {
+    font-size: 32px;
+    margin-right: 14px;
 }
 
-.card-title-small {
+.pack-title {
+    flex: 1;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.pack-arrow {
     font-size: 18px;
+    color: #ccc;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========== 旋转放大覆盖层 ========== */
+.step-overlay {
+    position: fixed;
+    z-index: 999;
+    background: linear-gradient(145deg, #ffffff, #f5faf7);
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(40, 80, 60, .06);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.step-overlay.expanded {
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    border-radius: 0 !important;
+    transform: rotate(360deg);
+}
+
+/* ========== 步骤卡片页 ========== */
+.step-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+    margin-top: 30px;
+}
+
+.step-card {
+    background: linear-gradient(145deg, #ffffff, #f5faf7);
+    border-radius: 24px;
+    padding: 40px 28px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 16px 40px rgba(40, 80, 60, .1);
+    animation: stepIn 0.35s ease-out;
+}
+
+@keyframes stepIn {
+    from { opacity: 0; transform: scale(0.9) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.step-counter {
+    font-size: 13px;
+    color: #aaa;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.step-content {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.6;
+    margin-bottom: 32px;
+    color: #222;
+}
+
+.step-btn {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 14px 36px;
+    border-radius: 28px;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+    max-width: 280px;
+}
+
+.step-btn:active {
+    transform: scale(0.95);
+    background: #43a047;
+}
+
+.step-btn.secondary {
+    background: transparent;
+    color: #4CAF50;
+    border: 2px solid #4CAF50;
+    margin-top: 12px;
+}
+
+.step-skip {
+    margin-top: 16px;
+    font-size: 14px;
+    color: #bbb;
+    cursor: pointer;
+}
+
+/* ========== 完成页 ========== */
+.done-card {
+    padding: 50px 28px;
+}
+
+.done-emoji {
+    font-size: 64px;
+    margin-bottom: 16px;
+}
+
+.done-title {
+    font-size: 28px;
     font-weight: 700;
     margin-bottom: 8px;
 }
 
-.card-question {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 16px;
-    line-height: 1.5;
-}
-
-.tap-hint {
-    font-size: 12px;
-    color: #aaa;
-    margin-top: 10px;
-}
-
-.card-back ol {
-    padding-left: 20px;
-    margin: 10px 0 16px;
-}
-
-.card-back li {
-    margin-bottom: 8px;
+.done-desc {
     font-size: 15px;
-    line-height: 1.5;
-}
-
-.done-btn {
-    background: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 28px;
-    border-radius: 20px;
-    font-size: 15px;
-    cursor: pointer;
-    align-self: center;
-    margin-top: auto;
-}
-
-.card-item.done {
-    opacity: 0.55;
-    filter: grayscale(30%);
-}
-
-.card-item.done .done-btn {
-    background: #999;
-}
-
-button {
-    font-family: inherit;
-}
-
-/* ========== 全屏卡片模式 ========== */
-
-/* 卡片入场动画 */
-.card-item {
-    animation: cardFlyIn 0.5s ease-out both;
-}
-
-@keyframes cardFlyIn {
-    0% {
-        opacity: 0;
-        transform: rotateY(90deg) scale(0.8);
-    }
-    60% {
-        opacity: 1;
-        transform: rotateY(-10deg) scale(1.02);
-    }
-    100% {
-        opacity: 1;
-        transform: rotateY(0deg) scale(1);
-    }
-}
-
-/* 卡片高度适配更多内容 */
-.card-item {
-    perspective: 1000px;
-    margin-bottom: 22px;
-    min-height: 300px;
-}
-
-.card-back ol {
-    padding-left: 20px;
-    margin: 10px 0 16px;
-}
-
-.card-back li {
-    margin-bottom: 10px;
-    font-size: 15px;
-    line-height: 1.6;
-}
-
-/* 已完成状态保持可读 */
-.card-item.done {
-    opacity: 0.6;
-    filter: grayscale(20%);
-}
-
-.card-item.done .done-btn {
-    background: #888;
-}
-
-/* 按钮过渡 */
-.done-btn {
-    transition: all 0.3s;
+    color: #888;
+    margin-bottom: 28px;
 }
