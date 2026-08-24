@@ -252,14 +252,7 @@ header p {
     margin-top: 12px;
 }
 
-.step-skip {
-    margin-top: 16px;
-    font-size: 14px;
-    color: #bbb;
-    cursor: pointer;
-}
-
-/* 科学依据入口和展开内容 */
+/* ========== 科学依据排版 ========== */
 .why-toggle {
     margin-top: 18px;
     font-size: 12px;
@@ -267,23 +260,83 @@ header p {
     cursor: pointer;
     user-select: none;
     letter-spacing: 0.5px;
+    transition: color 0.2s;
+}
+
+.why-toggle:active {
+    color: #4CAF50;
 }
 
 .why-detail {
-    margin-top: 8px;
-    padding: 12px 14px;
-    background: rgba(0, 0, 0, 0.03);
-    border-radius: 12px;
-    font-size: 13px;
-    color: #777;
-    line-height: 1.8;
+    margin-top: 10px;
+    padding: 16px 16px 14px;
+    background: linear-gradient(160deg, #fafdfb, #f5faf7);
+    border-radius: 14px;
+    border-left: 3px solid #4CAF50;
     text-align: left;
-    animation: fadeIn 0.2s ease-out;
+    animation: fadeIn 0.25s ease-out;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 年份+学校：胶囊标签 */
+.why-meta {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    color: #4CAF50;
+    background: rgba(76, 175, 80, 0.1);
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    letter-spacing: 0.3px;
+}
+
+/* 实验发现：正常字体，数字部分由JS处理或整体保持可读 */
+.why-finding {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 10px;
+}
+
+/* 原因：带小标签 */
+.why-reason {
+    font-size: 13px;
+    color: #777;
+    line-height: 1.7;
+    margin-bottom: 10px;
+}
+
+.why-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #4CAF50;
+    background: rgba(76, 175, 80, 0.1);
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+.why-label.key {
+    color: #e67e22;
+    background: rgba(230, 126, 34, 0.1);
+}
+
+/* 关键结论：加粗+下划线+绿色 */
+.why-conclusion {
+    font-size: 14px;
+    font-weight: 700;
+    color: #2e7d32;
+    line-height: 1.7;
+    text-decoration: underline;
+    text-decoration-color: rgba(76, 175, 80, 0.4);
+    text-underline-offset: 4px;
 }
 
 /* 反馈界面 */
