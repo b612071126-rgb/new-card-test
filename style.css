@@ -103,7 +103,7 @@ header p {
 .card2::after { top: 45px; right: 5px; }
 .card3::after { bottom: 15px; left: 25px; }
 
-/* ========== 通用返回栏 ========== */
+/* 通用返回栏 */
 .back-bar {
     display: inline-block;
     font-size: 15px;
@@ -114,7 +114,7 @@ header p {
     user-select: none;
 }
 
-/* ========== 卡包列表页 ========== */
+/* 卡包列表页 */
 .pack-list-title {
     font-size: 24px;
     font-weight: 700;
@@ -164,7 +164,7 @@ header p {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* ========== 旋转放大覆盖层 ========== */
+/* 旋转放大覆盖层 */
 .step-overlay {
     position: fixed;
     z-index: 999;
@@ -184,7 +184,7 @@ header p {
     transform: rotate(360deg);
 }
 
-/* ========== 步骤卡片页 ========== */
+/* 步骤卡片页 */
 .step-container {
     display: flex;
     flex-direction: column;
@@ -199,6 +199,7 @@ header p {
     border-radius: 24px;
     padding: 40px 28px;
     width: 100%;
+    max-width: 100%;
     text-align: center;
     box-shadow: 0 16px 40px rgba(40, 80, 60, .1);
     animation: stepIn 0.35s ease-out;
@@ -217,11 +218,12 @@ header p {
 }
 
 .step-content {
-    font-size: 22px;
+    font-size: 21px;
     font-weight: 600;
-    line-height: 1.6;
+    line-height: 1.7;
     margin-bottom: 32px;
     color: #222;
+    word-break: break-word;
 }
 
 .step-btn {
@@ -257,9 +259,61 @@ header p {
     cursor: pointer;
 }
 
-/* ========== 完成页 ========== */
+/* 反馈界面 */
+.feedback-mode {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 280px;
+}
+
+.feedback-emoji {
+    font-size: 56px;
+    margin-bottom: 16px;
+    animation: popIn 0.3s ease-out;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0); }
+    70% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.feedback-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #222;
+}
+
+.feedback-desc {
+    font-size: 16px;
+    color: #888;
+    margin-bottom: 20px;
+}
+
+.feedback-desc strong {
+    color: #4CAF50;
+    font-size: 20px;
+}
+
+.feedback-loading {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #e0e0e0;
+    border-top-color: #4CAF50;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* 完成页 */
 .done-card {
-    padding: 50px 28px;
+    padding: 50px 28px 40px;
 }
 
 .done-emoji {
@@ -277,4 +331,17 @@ header p {
     font-size: 15px;
     color: #888;
     margin-bottom: 28px;
+    line-height: 1.6;
+}
+
+/* 原文废话——极淡灰色，不起眼 */
+.quote-footnote {
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.04);
+    font-size: 11px;
+    color: rgba(150, 150, 150, 0.4);
+    line-height: 1.6;
+    text-align: center;
+    letter-spacing: 0.5px;
 }
