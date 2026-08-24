@@ -227,3 +227,25 @@ function goBack() {
 
 // 初始化
 renderHome();
+
+/* ========== 3D触摸倾斜效果 ========== */
+document.addEventListener("touchmove", (e) => {
+    const card = e.target.closest(".step-card");
+    if (!card || card.classList.contains("feedback-mode")) return;
+    if (e.target.closest(".step-btn") || e.target.closest(".why-toggle")) return;
+
+    const rect = card.getBoundingClientRect();
+    const touch = e.touches[0];
+    const x = (touch.clientX - rect.left) / rect.width - 0.5;
+    const y = (touch.clientY - rect.top) / rect.height - 0.5;
+
+    card.style.transition = "transform 0.08s ease-out";
+    card.style.transform = `perspective(1000px) rotateX(${y * -14}deg) rotateY(${x * 14}deg) translateZ(20px)`;
+}, { passive: true });
+
+document.addEventListener("touchend", (e) => {
+    const card = e.target.closest(".step-card");
+    if (!card) return;
+    card.style.transition = "transform 0.4s ease";
+    card.style.transform = "";
+});
