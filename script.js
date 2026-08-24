@@ -10,7 +10,7 @@ const header = document.querySelector("header");
 
 let currentCategory = "";
 let currentCardIndex = 0;
-let feedbackTimer = null;  // 用于清理计时器，避免冲突
+let feedbackTimer = null;
 
 // 1. 渲染主页分类方块
 function renderHome() {
@@ -117,6 +117,9 @@ function renderStepPage(card) {
                     ${isLast ? '🎉 我完成了' : '✅ 我做到了'}
                 </button>
                 ${!isLast ? `<div class="step-skip" onclick="skipToEnd(${card.id})">跳过剩余步骤 →</div>` : ''}
+                ${step.why ? `
+                    <div class="why-inline">💡 ${step.why}</div>
+                ` : ''}
             </div>
         </div>
     `;
@@ -124,7 +127,7 @@ function renderStepPage(card) {
     box.innerHTML = html;
 }
 
-// 5. 显示步骤反馈（2.5秒后自动跳下一步）
+// 5. 显示步骤反馈（2.5秒后自动跳下一步，同时显示简短说明）
 function showStepFeedback(cardId, stepIndex) {
     const card = cards.find(c => c.id === cardId);
     const step = card.steps[stepIndex];
@@ -136,6 +139,7 @@ function showStepFeedback(cardId, stepIndex) {
         <div class="feedback-emoji">🎉</div>
         <div class="feedback-title">恭喜你完成第 ${stepIndex + 1} 步！</div>
         <div class="feedback-desc">你超过了 <strong>${step.percent}%</strong> 的人</div>
+        ${step.why ? `<div class="feedback-why">💡 ${step.why}</div>` : ''}
         <div class="feedback-loading"></div>
     `;
     container.classList.add("feedback-mode");
