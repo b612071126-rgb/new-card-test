@@ -259,6 +259,18 @@ header p {
     cursor: pointer;
 }
 
+/* 步骤卡片内嵌的科学说明（温和展示） */
+.why-inline {
+    margin-top: 16px;
+    font-size: 12px;
+    color: #aaa;
+    line-height: 1.6;
+    text-align: left;
+    padding: 10px 14px;
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 10px;
+}
+
 /* 反馈界面 */
 .feedback-mode {
     display: flex;
@@ -290,12 +302,22 @@ header p {
 .feedback-desc {
     font-size: 16px;
     color: #888;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
 }
 
 .feedback-desc strong {
     color: #4CAF50;
     font-size: 20px;
+}
+
+/* 反馈界面的简短说明 */
+.feedback-why {
+    font-size: 13px;
+    color: #999;
+    line-height: 1.5;
+    margin-bottom: 16px;
+    padding: 0 20px;
+    text-align: center;
 }
 
 .feedback-loading {
@@ -305,6 +327,7 @@ header p {
     border-top-color: #4CAF50;
     border-radius: 50%;
     animation: spin 1s linear infinite;
+    margin-top: 8px;
 }
 
 @keyframes spin {
