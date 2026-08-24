@@ -107,6 +107,20 @@ function renderStepPage(card) {
     const step = card.steps[stepIndex];
     const isLast = stepIndex === card.steps.length - 1;
 
+    // 渲染科学依据的结构化HTML
+    let whyHtml = "";
+    if (step.why) {
+        whyHtml = `
+            <div class="why-toggle" onclick="toggleWhy(this)">🔬 科学依据</div>
+            <div class="why-detail" style="display:none;">
+                <div class="why-meta">📅 ${step.why.meta}</div>
+                <div class="why-finding">${step.why.finding}</div>
+                <div class="why-reason"><span class="why-label">原因</span>${step.why.reason}</div>
+                <div class="why-conclusion"><span class="why-label key">关键</span>${step.why.conclusion}</div>
+            </div>
+        `;
+    }
+
     const html = `
         <div class="back-bar" onclick="goToPackList()">← 返回</div>
         <div class="step-container">
@@ -116,11 +130,7 @@ function renderStepPage(card) {
                 <button class="step-btn" onclick="showStepFeedback(${card.id}, ${stepIndex})">
                     ${isLast ? '🎉 我完成了' : '✅ 我做到了'}
                 </button>
-                ${!isLast ? `<div class="step-skip" onclick="skipToEnd(${card.id})">跳过剩余步骤 →</div>` : ''}
-                ${step.why ? `
-                    <div class="why-toggle" onclick="toggleWhy(this)">🔬 科学依据</div>
-                    <div class="why-detail" style="display:none;">${step.why}</div>
-                ` : ''}
+                ${whyHtml}
             </div>
         </div>
     `;
@@ -147,11 +157,9 @@ function showStepFeedback(cardId, stepIndex) {
     const isLast = stepIndex === card.steps.length - 1;
     const container = document.querySelector(".step-card");
 
-    // 提取 why 的第一句作为简短结论
     let shortWhy = "";
     if (step.why) {
-        const firstSentence = step.why.split("。")[0];
-        shortWhy = firstSentence ? firstSentence + "。" : step.why;
+        shortWhy = `${step.why.meta}：${step.why.finding}`;
     }
 
     container.innerHTML = `
@@ -174,15 +182,7 @@ function showStepFeedback(cardId, stepIndex) {
     }, 2500);
 }
 
-// 6. 跳过到结束
-function skipToEnd(cardId) {
-    if (feedbackTimer) clearTimeout(feedbackTimer);
-    const card = cards.find(c => c.id === cardId);
-    currentCardIndex = card.steps.length - 1;
-    renderStepPage(card);
-}
-
-// 7. 完成所有步骤
+// 6. 完成所有步骤
 function finishSteps(cardId) {
     if (feedbackTimer) clearTimeout(feedbackTimer);
     const card = cards.find(c => c.id === cardId);
@@ -204,7 +204,7 @@ function finishSteps(cardId) {
     box.innerHTML = html;
 }
 
-// 8. 重置并重新开始
+// 7. 重置并重新开始
 function resetAndReplay(cardId) {
     if (feedbackTimer) clearTimeout(feedbackTimer);
     localStorage.removeItem("card_done_" + cardId);
@@ -213,13 +213,13 @@ function resetAndReplay(cardId) {
     renderStepPage(card);
 }
 
-// 9. 回到卡包列表
+// 8. 回到卡包列表
 function goToPackList() {
     if (feedbackTimer) clearTimeout(feedbackTimer);
     renderPackList(currentCategory);
 }
 
-// 10. 回到主页
+// 9. 回到主页
 function goBack() {
     if (feedbackTimer) clearTimeout(feedbackTimer);
     renderHome();
