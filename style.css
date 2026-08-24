@@ -259,16 +259,31 @@ header p {
     cursor: pointer;
 }
 
-/* 步骤卡片内嵌的科学说明（温和展示） */
-.why-inline {
-    margin-top: 16px;
+/* 科学依据入口和展开内容 */
+.why-toggle {
+    margin-top: 18px;
     font-size: 12px;
-    color: #aaa;
-    line-height: 1.6;
+    color: #999;
+    cursor: pointer;
+    user-select: none;
+    letter-spacing: 0.5px;
+}
+
+.why-detail {
+    margin-top: 8px;
+    padding: 12px 14px;
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 12px;
+    font-size: 13px;
+    color: #777;
+    line-height: 1.8;
     text-align: left;
-    padding: 10px 14px;
-    background: rgba(0, 0, 0, 0.02);
-    border-radius: 10px;
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 /* 反馈界面 */
@@ -310,7 +325,7 @@ header p {
     font-size: 20px;
 }
 
-/* 反馈界面的简短说明 */
+/* 反馈界面的简短科学结论 */
 .feedback-why {
     font-size: 13px;
     color: #999;
@@ -318,6 +333,8 @@ header p {
     margin-bottom: 16px;
     padding: 0 20px;
     text-align: center;
+    max-height: 60px;
+    overflow: hidden;
 }
 
 .feedback-loading {
