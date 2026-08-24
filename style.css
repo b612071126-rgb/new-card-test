@@ -192,29 +192,103 @@ header p {
     justify-content: center;
     min-height: 70vh;
     margin-top: 30px;
+    perspective: 1200px;  /* 为子元素提供3D透视 */
 }
 
+/* ========== 3D科技感塔罗牌效果 ========== */
 .step-card {
-    background: linear-gradient(145deg, #ffffff, #f5faf7);
-    border-radius: 24px;
+    position: relative;
+    background:
+        linear-gradient(160deg, rgba(255, 255, 255, 0.98), rgba(245, 250, 247, 0.95));
+    border-radius: 22px;
     padding: 40px 28px;
     width: 100%;
     max-width: 100%;
     text-align: center;
-    box-shadow: 0 16px 40px rgba(40, 80, 60, .1);
-    animation: stepIn 0.35s ease-out;
+    box-shadow:
+        0 0 20px rgba(76, 175, 80, 0.25),
+        0 0 40px rgba(76, 175, 80, 0.12),
+        0 20px 50px rgba(40, 80, 60, 0.15),
+        inset 0 0 30px rgba(76, 175, 80, 0.05);
+    border: 1px solid rgba(76, 175, 80, 0.3);
+    animation: stepIn 0.5s cubic-bezier(0.3, 0, 0.2, 1);
+    transform: perspective(1000px) rotateX(3deg) rotateY(-4deg);
+    transition: transform 0.4s ease;
+    will-change: transform;
 }
 
+/* 卡牌四角装饰 */
+.step-card::before {
+    content: "";
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    width: 24px;
+    height: 24px;
+    border-top: 2px solid rgba(76, 175, 80, 0.7);
+    border-left: 2px solid rgba(76, 175, 80, 0.7);
+    border-radius: 6px 0 0 0;
+}
+
+.step-card::after {
+    content: "";
+    position: absolute;
+    bottom: 14px;
+    right: 14px;
+    width: 24px;
+    height: 24px;
+    border-bottom: 2px solid rgba(76, 175, 80, 0.7);
+    border-right: 2px solid rgba(76, 175, 80, 0.7);
+    border-radius: 0 0 6px 0;
+}
+
+/* 额外两个角：用box-shadow模拟 */
+.step-card .corner-tr,
+.step-card .corner-bl {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+}
+
+.corner-tr {
+    top: 14px;
+    right: 14px;
+    border-top: 2px solid rgba(76, 175, 80, 0.7);
+    border-right: 2px solid rgba(76, 175, 80, 0.7);
+    border-radius: 0 6px 0 0;
+}
+
+.corner-bl {
+    bottom: 14px;
+    left: 14px;
+    border-bottom: 2px solid rgba(76, 175, 80, 0.7);
+    border-left: 2px solid rgba(76, 175, 80, 0.7);
+    border-radius: 0 0 0 6px;
+}
+
+/* 卡牌入场3D动画 */
 @keyframes stepIn {
-    from { opacity: 0; transform: scale(0.9) translateY(10px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
+    from {
+        opacity: 0;
+        transform: perspective(1000px) rotateY(25deg) rotateX(8deg) scale(0.7) translateY(50px);
+    }
+    60% {
+        opacity: 1;
+        transform: perspective(1000px) rotateY(-3deg) rotateX(3deg) scale(1.02) translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: perspective(1000px) rotateX(3deg) rotateY(-4deg) scale(1) translateY(0);
+    }
 }
 
-.step-counter {
-    font-size: 13px;
+/* 卡牌顶部装饰线 */
+.step-card .step-counter {
+    font-size: 12px;
     color: #aaa;
-    margin-bottom: 20px;
-    letter-spacing: 2px;
+    margin-bottom: 18px;
+    letter-spacing: 3px;
+    font-weight: 600;
 }
 
 .step-content {
@@ -224,10 +298,11 @@ header p {
     margin-bottom: 32px;
     color: #222;
     word-break: break-word;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.03);
 }
 
 .step-btn {
-    background: #4CAF50;
+    background: linear-gradient(160deg, #4CAF50, #43a047);
     color: white;
     border: none;
     padding: 14px 36px;
@@ -238,11 +313,13 @@ header p {
     transition: all 0.3s;
     width: 100%;
     max-width: 280px;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
 }
 
 .step-btn:active {
     transform: scale(0.95);
-    background: #43a047;
+    background: #388e3c;
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
 }
 
 .step-btn.secondary {
@@ -250,6 +327,19 @@ header p {
     color: #4CAF50;
     border: 2px solid #4CAF50;
     margin-top: 12px;
+    box-shadow: none;
+}
+
+/* 反馈模式：柔化3D效果 */
+.feedback-mode {
+    animation: none;
+    transform: perspective(1000px) rotateX(2deg) rotateY(-2deg);
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: default;
 }
 
 /* ========== 科学依据排版 ========== */
@@ -282,7 +372,6 @@ header p {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* 年份+学校：胶囊标签 */
 .why-meta {
     display: inline-block;
     font-size: 11px;
@@ -295,7 +384,6 @@ header p {
     letter-spacing: 0.3px;
 }
 
-/* 实验发现：正常字体，数字部分由JS处理或整体保持可读 */
 .why-finding {
     font-size: 14px;
     color: #555;
@@ -303,7 +391,6 @@ header p {
     margin-bottom: 10px;
 }
 
-/* 原因：带小标签 */
 .why-reason {
     font-size: 13px;
     color: #777;
@@ -328,7 +415,6 @@ header p {
     background: rgba(230, 126, 34, 0.1);
 }
 
-/* 关键结论：加粗+下划线+绿色 */
 .why-conclusion {
     font-size: 14px;
     font-weight: 700;
@@ -340,14 +426,6 @@ header p {
 }
 
 /* 反馈界面 */
-.feedback-mode {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 280px;
-}
-
 .feedback-emoji {
     font-size: 56px;
     margin-bottom: 16px;
@@ -378,7 +456,6 @@ header p {
     font-size: 20px;
 }
 
-/* 反馈界面的简短科学结论 */
 .feedback-why {
     font-size: 13px;
     color: #999;
@@ -427,7 +504,6 @@ header p {
     line-height: 1.6;
 }
 
-/* 原文废话——极淡灰色，不起眼 */
 .quote-footnote {
     margin-top: 28px;
     padding-top: 16px;
