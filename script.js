@@ -118,7 +118,8 @@ function renderStepPage(card) {
                 </button>
                 ${!isLast ? `<div class="step-skip" onclick="skipToEnd(${card.id})">跳过剩余步骤 →</div>` : ''}
                 ${step.why ? `
-                    <div class="why-inline">💡 ${step.why}</div>
+                    <div class="why-toggle" onclick="toggleWhy(this)">🔬 科学依据</div>
+                    <div class="why-detail" style="display:none;">${step.why}</div>
                 ` : ''}
             </div>
         </div>
@@ -127,19 +128,37 @@ function renderStepPage(card) {
     box.innerHTML = html;
 }
 
-// 5. 显示步骤反馈（2.5秒后自动跳下一步，同时显示简短说明）
+// 切换科学依据展开/收起
+function toggleWhy(el) {
+    const detail = el.nextElementSibling;
+    if (detail.style.display === "none") {
+        detail.style.display = "block";
+        el.textContent = "🔬 收起科学依据";
+    } else {
+        detail.style.display = "none";
+        el.textContent = "🔬 科学依据";
+    }
+}
+
+// 5. 显示步骤反馈（2.5秒后自动跳下一步，同时显示简短科学结论）
 function showStepFeedback(cardId, stepIndex) {
     const card = cards.find(c => c.id === cardId);
     const step = card.steps[stepIndex];
     const isLast = stepIndex === card.steps.length - 1;
     const container = document.querySelector(".step-card");
 
-    // 替换为反馈界面
+    // 提取 why 的第一句作为简短结论
+    let shortWhy = "";
+    if (step.why) {
+        const firstSentence = step.why.split("。")[0];
+        shortWhy = firstSentence ? firstSentence + "。" : step.why;
+    }
+
     container.innerHTML = `
         <div class="feedback-emoji">🎉</div>
         <div class="feedback-title">恭喜你完成第 ${stepIndex + 1} 步！</div>
         <div class="feedback-desc">你超过了 <strong>${step.percent}%</strong> 的人</div>
-        ${step.why ? `<div class="feedback-why">💡 ${step.why}</div>` : ''}
+        ${shortWhy ? `<div class="feedback-why">${shortWhy}</div>` : ''}
         <div class="feedback-loading"></div>
     `;
     container.classList.add("feedback-mode");
